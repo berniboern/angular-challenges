@@ -9,3 +9,6 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+// Not working:
+// npx nx generate @angular/core:standalone  --project=angular-module-to-standalone
+// https://angular.dev/reference/migrations/standalone#migrations-steps
