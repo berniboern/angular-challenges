@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FakeHttpService } from '../../data-access/fake-http.service';
 import { TeacherStore } from '../../data-access/teacher.store';
 import { CardType } from '../../model/card.model';
-import { Teacher } from '../../model/teacher.model';
 import { CardComponent } from '../../ui/card/card.component';
 
 @Component({
@@ -24,7 +23,10 @@ import { CardComponent } from '../../ui/card/card.component';
   imports: [CardComponent],
 })
 export class TeacherCardComponent implements OnInit {
-  teachers: Teacher[] = [];
+  teachers: {
+    id: number;
+    name: string;
+  }[] = [];
   cardType = CardType.TEACHER;
 
   constructor(
@@ -35,6 +37,12 @@ export class TeacherCardComponent implements OnInit {
   ngOnInit(): void {
     this.http.fetchTeachers$.subscribe((t) => this.store.addAll(t));
 
-    this.store.teachers$.subscribe((t) => (this.teachers = t));
+    this.store.teachers$.subscribe(
+      (t) =>
+        (this.teachers = t.map((teacher) => ({
+          id: teacher.id,
+          name: teacher.firstName,
+        }))),
+    );
   }
 }

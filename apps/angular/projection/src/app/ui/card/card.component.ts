@@ -24,7 +24,7 @@ import { ListItemComponent } from '../list-item/list-item.component';
       <section>
         <app-list-item
           *ngFor="let item of list"
-          [name]="item.firstName"
+          [name]="item.name"
           [id]="item.id"
           [type]="type"></app-list-item>
       </section>
@@ -40,7 +40,12 @@ import { ListItemComponent } from '../list-item/list-item.component';
   imports: [NgIf, NgFor, ListItemComponent],
 })
 export class CardComponent {
-  @Input() list: any[] | null = null;
+  @Input() list:
+    | {
+        id: number;
+        name: string;
+      }[]
+    | null = null;
   @Input() type!: CardType;
   @Input() customClass = '';
 
