@@ -1,8 +1,71 @@
 import { Component } from '@angular/core';
 
+import {
+  animate,
+  keyframes,
+  query,
+  stagger,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+
 @Component({
   standalone: true,
+  providers: [],
   imports: [],
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({ opacity: 0 })),
+      state('*', style({ opacity: 1 })),
+      transition(':enter', [animate('1s')]),
+    ]),
+    trigger('slideInLeft', [
+      state('void', style({ opacity: 0, transform: 'translateX(-100%)' })),
+      state('*', style({ opacity: 1, transform: 'translateX(0)' })),
+      transition(':enter', [animate('0.5s')]),
+    ]),
+    trigger('slideInBottom', [
+      state('void', style({ opacity: 0, transform: 'translateY(100%)' })),
+      state('*', style({ opacity: 1, transform: 'translateY(0)' })),
+      transition(':enter', [animate('1s')]),
+    ]),
+    trigger('slideInTop', [
+      state('void', style({ opacity: 0, transform: 'translateY(-100%)' })),
+      state('*', style({ opacity: 1, transform: 'translateY(0)' })),
+      transition(':enter', [animate('1s')]),
+    ]),
+
+    trigger('listAnimation', [
+      transition(':enter', [
+        query('div', [
+          stagger(100, [
+            animate(
+              '0.5s',
+              keyframes([
+                style({
+                  opacity: 0,
+                  transform: 'translateX(-20px)',
+                  offset: 0,
+                }),
+                style({
+                  opacity: 1,
+                  transform: 'translateX(10px)',
+                  offset: 0.5,
+                }),
+                style({
+                  opacity: 1,
+                  transform: 'translateX(0)',
+                  offset: 1.0,
+                }),
+              ]),
+            ),
+          ]),
+        ]),
+      ]),
+    ]),
+  ],
   selector: 'app-root',
   styles: `
     section {
@@ -19,7 +82,7 @@ import { Component } from '@angular/core';
   `,
   template: `
     <div class="mx-20 my-40 flex gap-5">
-      <section>
+      <section @slideInLeft>
         <div>
           <h3>2008</h3>
           <p>
@@ -51,7 +114,7 @@ import { Component } from '@angular/core';
         </div>
       </section>
 
-      <section>
+      <section @listAnimation>
         <div class="list-item">
           <span>Name:</span>
           <span>Samuel</span>
